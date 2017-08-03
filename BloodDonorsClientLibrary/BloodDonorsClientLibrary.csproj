@@ -41,6 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Commands\AddDonation.cs" />
+    <Compile Include="Commands\LoginCredentials.cs" />
+    <Compile Include="Commands\RegisterDonor.cs" />
     <Compile Include="Models\BloodDonation.cs" />
     <Compile Include="Models\BloodType.cs" />
     <Compile Include="Models\Donor.cs" />
@@ -48,6 +51,9 @@
     <Compile Include="Models\Jwt.cs" />
     <Compile Include="Models\Personnel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
