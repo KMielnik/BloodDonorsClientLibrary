@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
@@ -24,6 +25,13 @@ namespace BloodDonorsClientLibrary.Services
         protected void AddAuthorizationToClient()
         {
             Client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {Token}");
+        }
+
+        protected async Task AutomaticLogout(DateTime dateTime)
+        {
+            var timeSpan = dateTime - DateTime.UtcNow;
+            await Task.Delay(timeSpan);
+            Logout();
         }
     }
 }
