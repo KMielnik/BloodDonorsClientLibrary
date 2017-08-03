@@ -14,7 +14,7 @@ namespace BloodDonorsClientLibrary.Services
 
         protected string Token;
 
-        public abstract Task Login(string pesel, string password);
+        public abstract Task LoginAsync(string pesel, string password);
 
         public async void Logout()
         {
