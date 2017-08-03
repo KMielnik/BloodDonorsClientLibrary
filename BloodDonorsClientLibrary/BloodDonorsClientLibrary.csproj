@@ -55,9 +55,11 @@
     <Compile Include="Models\Jwt.cs" />
     <Compile Include="Models\Personnel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ClientFactory.cs" />
     <Compile Include="Services\DonorClient.cs" />
     <Compile Include="Services\HttpClientBase.cs" />
     <Compile Include="Services\HttpClientWithAuthorization.cs" />
+    <Compile Include="Services\PersonnelClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
