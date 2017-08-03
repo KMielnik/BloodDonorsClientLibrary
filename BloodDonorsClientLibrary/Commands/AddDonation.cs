@@ -3,7 +3,7 @@ using BloodDonorsClientLibrary.Models;
 
 namespace BloodDonorsClientLibrary.Commands
 {
-    public class AddDonation
+    class AddDonation
     {
         public DateTime DateOfDonation { get; set; }
         public int Volume { get; set; }

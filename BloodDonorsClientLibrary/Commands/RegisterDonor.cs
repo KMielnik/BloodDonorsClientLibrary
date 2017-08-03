@@ -2,7 +2,7 @@
 
 namespace BloodDonorsClientLibrary.Commands
 {
-    public class RegisterDonor
+    class RegisterDonor
     {
         public string Pesel { get; set; }
         public string Name { get; set; }

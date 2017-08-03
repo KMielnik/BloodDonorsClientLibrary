@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,7 @@
     <Compile Include="Commands\AddDonation.cs" />
     <Compile Include="Commands\LoginCredentials.cs" />
     <Compile Include="Commands\RegisterDonor.cs" />
+    <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Models\BloodDonation.cs" />
     <Compile Include="Models\BloodType.cs" />
     <Compile Include="Models\Donor.cs" />
@@ -51,9 +55,12 @@
     <Compile Include="Models\Jwt.cs" />
     <Compile Include="Models\Personnel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DonorClient.cs" />
+    <Compile Include="Services\HttpClientBase.cs" />
+    <Compile Include="Services\HttpClientWithAuthorization.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

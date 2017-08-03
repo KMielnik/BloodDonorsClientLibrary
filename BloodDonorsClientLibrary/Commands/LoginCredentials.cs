@@ -1,6 +1,6 @@
 ﻿namespace BloodDonorsClientLibrary.Commands
 {
-    public class LoginCredentials
+    class LoginCredentials
     {
         public string Pesel;
         public string Password;
