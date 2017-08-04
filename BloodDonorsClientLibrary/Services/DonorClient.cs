@@ -39,6 +39,7 @@ namespace BloodDonorsClientLibrary.Services
                 Token = jwt.Token;
                 AddAuthorizationToClient();
                 AutomaticLogout(jwt.Expires);
+                IsLoggedIn = true;
             }
         }
 

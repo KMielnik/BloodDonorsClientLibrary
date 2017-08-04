@@ -9,17 +9,26 @@ namespace BloodDonorsClientLibrary.Services
     {
         protected HttpClientWithAuthorization(HttpClient client) : base(client)
         {
+            WhenLogout = OnLogout;
             Token = "";
         }
 
+        public bool IsLoggedIn { get; protected set; }
         protected string Token;
+        public event EventHandler WhenLogout;
 
         public abstract Task LoginAsync(string pesel, string password);
 
-        public async void Logout()
+        public void Logout()
+        {
+            WhenLogout?.Invoke(this,EventArgs.Empty);
+        }
+
+        protected void OnLogout(object sender,EventArgs e)
         {
             Token = "";
             AddAuthorizationToClient();
+            IsLoggedIn = false;
         }
 
         protected void AddAuthorizationToClient()
