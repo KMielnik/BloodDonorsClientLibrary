@@ -47,6 +47,9 @@
     <Compile Include="Commands\AddDonation.cs" />
     <Compile Include="Commands\LoginCredentials.cs" />
     <Compile Include="Commands\RegisterDonor.cs" />
+    <Compile Include="Exceptions\InvalidLoginCredentialsException.cs" />
+    <Compile Include="Exceptions\ResouceAlreadyExistsException.cs" />
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Models\BloodDonation.cs" />
     <Compile Include="Models\BloodType.cs" />
@@ -64,8 +67,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exceptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

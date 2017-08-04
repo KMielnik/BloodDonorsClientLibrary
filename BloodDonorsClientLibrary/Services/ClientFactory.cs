@@ -4,7 +4,7 @@ namespace BloodDonorsClientLibrary.Services
 {
     public class ClientFactory
     {
-        private HttpClient client;
+        private readonly HttpClient client;
 
         public ClientFactory()
         {
