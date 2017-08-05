@@ -16,5 +16,8 @@ namespace BloodDonorsClientLibrary.Services
 
         public PersonnelClient GetPersonnelClient()
             => new PersonnelClient(client);
+
+        public MiscellaneousClient GetMiscellaneousClient()
+            => new MiscellaneousClient(client);
     }
 }

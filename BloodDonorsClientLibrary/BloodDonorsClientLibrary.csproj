@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\BloodDonorsClientLibrary.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\BloodDonorsClientLibrary.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -43,7 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Commands\AddDonation.cs" />
     <Compile Include="Commands\LoginCredentials.cs" />
     <Compile Include="Commands\RegisterDonor.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Services\DonorClient.cs" />
     <Compile Include="Services\HttpClientBase.cs" />
     <Compile Include="Services\HttpClientWithAuthorization.cs" />
+    <Compile Include="Services\MiscellaneousClient.cs" />
     <Compile Include="Services\PersonnelClient.cs" />
   </ItemGroup>
   <ItemGroup>

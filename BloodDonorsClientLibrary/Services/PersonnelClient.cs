@@ -156,7 +156,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </summary>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodAsync()
         {
-            var responseJson = await Client.GetStringAsync("allBlood");
+            var responseJson = await Client.GetStringAsync("donations/allBlood");
             var allBlood = JsonConvert.DeserializeObject<IEnumerable<BloodDonation>>(responseJson);
 
             return allBlood;
