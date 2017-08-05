@@ -11,7 +11,8 @@ namespace BloodDonorsClientLibrary.Services
 
         protected HttpClientBase(HttpClient client)
         {
-            client.BaseAddress = new Uri("http://localhost/api/");
+            if(client.BaseAddress == null)
+                client.BaseAddress = new Uri("http://localhost/api/");
             Client = client;
         }
     }
