@@ -22,26 +22,36 @@ namespace BloodDonorsClientLibrary.Services
         /// </summary>
         /// <param name="pesel">Personnel pesel</param>
         /// <param name="password">Personnel password</param>
-        /// <returns></returns>
         public async Task LoginAsync(string pesel, string password)
             => await base.LoginAsync(pesel, password, "personnel/login");
-   
+
 
         /// <summary>
         /// Returns name of logged personnel.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<string> GetNameAsync()
         {
             var response = await Client.GetStringAsync("personnel/name");
+
             return response;
         }
 
         /// <summary>
         /// Returns all blood taken by logged in personnel.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodTakenByPersonnelAsync()
         {
             var response = await Client.GetAsync("personnel/alltakenblood");
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+
             var responseJson = await response.Content.ReadAsStringAsync();
             var bloodDonationsTakenByThisPersonnel =
                 JsonConvert.DeserializeObject<IEnumerable<BloodDonation>>(responseJson);
@@ -55,9 +65,15 @@ namespace BloodDonorsClientLibrary.Services
         /// <param name="donorsPesel">Pesel of donor which info we want to get.</param>
         /// <exception cref="UserNotFoundException">When donor with that pesel couldn't be found.</exception>
         /// <exception cref="Exception">When http code wasn't 2xx or 404</exception>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<DateTime> LastDonationDateByDonorAsync(string donorsPesel)
         {
             var response = await Client.GetAsync($"personnel/lastDonationBy/{donorsPesel}");
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
 
             if (response.IsSuccessStatusCode)
             {
@@ -81,6 +97,9 @@ namespace BloodDonorsClientLibrary.Services
         /// <exception cref="ResouceAlreadyExistsException">
         ///     Thrown when donor with that pesel already exists.
         /// </exception>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task RegisterDonorAsync(string pesel, string name, BloodType bloodType, string mail, string phone)
         {
             var registerDonor = new RegisterDonor(pesel, name, bloodType, mail, phone);
@@ -88,8 +107,13 @@ namespace BloodDonorsClientLibrary.Services
 
             var response = await Client.PostJsonAsync("personnel/newDonor", new StringContent(registerDonorJson));
 
-            if (response.StatusCode.Equals(HttpStatusCode.Conflict))
-                throw new ResouceAlreadyExistsException(response.ReasonPhrase);
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    throw new UserNotLoggedInException();
+                case HttpStatusCode.Conflict:
+                    throw new ResouceAlreadyExistsException(response.ReasonPhrase);
+            }
         }
 
         /// <summary>
@@ -99,6 +123,9 @@ namespace BloodDonorsClientLibrary.Services
         /// <param name="volume">Volume of donated blood in mililiters</param>
         /// <param name="bloodType"></param>
         /// <param name="donorPesel"></param>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         /// <exception cref="UserNotFoundException">
         ///     Thrown when donor with provided pesel has not been found.
         /// </exception>
@@ -111,8 +138,13 @@ namespace BloodDonorsClientLibrary.Services
 
             var response = await Client.PostJsonAsync("personnel/newDonation", new StringContent(newDonationJson));
 
-            if (response.StatusCode.Equals(HttpStatusCode.BadRequest))
-                throw new UserNotFoundException(response.ReasonPhrase);
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    throw new UserNotLoggedInException();
+                case HttpStatusCode.BadRequest:
+                    throw new UserNotFoundException(response.ReasonPhrase);
+            }
         }
 
         /// <summary>
@@ -120,12 +152,20 @@ namespace BloodDonorsClientLibrary.Services
         /// </summary>
         /// <param name="pesel"></param>
         /// <exception cref="UserNotFoundException">Thrown if user with that pesel was not found.</exception>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<Donor> GetDonorByPeselAsync(string pesel)
         {
             var response = await Client.GetAsync($"personnel/donor/{pesel}");
 
-            if (response.StatusCode.Equals(HttpStatusCode.NotFound))
-                throw new UserNotFoundException(response.ReasonPhrase);
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    throw new UserNotFoundException(response.ReasonPhrase);
+                case HttpStatusCode.Unauthorized:
+                    throw new UserNotLoggedInException();
+            }
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var donor = JsonConvert.DeserializeObject<Donor>(responseJson);
@@ -136,9 +176,18 @@ namespace BloodDonorsClientLibrary.Services
         /// <summary>
         /// Returns all blood donations
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodAsync()
         {
-            var responseJson = await Client.GetStringAsync("donations/allBlood");
+            var response = await Client.GetAsync("donations/allBlood");
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+
             var allBlood = JsonConvert.DeserializeObject<IEnumerable<BloodDonation>>(responseJson);
 
             return allBlood;
@@ -147,12 +196,20 @@ namespace BloodDonorsClientLibrary.Services
         /// <summary>
         /// Returns whole personnel account.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<Personnel> GetAccountAsync()
         {
             var response = await Client.GetAsync("personnel");
 
-            if (response.StatusCode.Equals(HttpStatusCode.Gone))
-                throw new UserNotFoundException("Actual user has been deleted?");
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    throw new UserNotLoggedInException();
+                case HttpStatusCode.Gone:
+                    throw new UserNotFoundException("Actual user has been deleted?");
+            }
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var personnel = JsonConvert.DeserializeObject<Personnel>(responseJson);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BloodDonorsClientLibrary.Models;
@@ -32,6 +33,23 @@ namespace BloodDonorsClientLibrary.Services
             var allBloodVolume = JsonConvert.DeserializeObject<int>(responseJson);
 
             return allBloodVolume;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> IsServerOnline()
+        {
+            try
+            {
+                var response = await Client.GetAsync("whatever");
+            }
+            catch (TaskCanceledException e)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

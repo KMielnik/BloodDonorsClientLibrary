@@ -31,41 +31,69 @@ namespace BloodDonorsClientLibrary.Services
         /// <summary>
         /// Returns name of logged donor.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<string> GetNameAsync()
         {
-            var response = await Client.GetStringAsync("donor/name");
-            return response;
+            var response = await Client.GetAsync("donor/name");
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+            var responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody;
         }
 
         /// <summary>
         /// Returns amount of blood donated by logged donor in mililiters.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<int> HowMuchDonatedAsync()
         {
-            var response = await Client.GetStringAsync("donor/donations/volume");
-            var mililitersDonated = int.Parse(response);
+            var response = await Client.GetAsync("donor/donations/volume");
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var mililitersDonated = int.Parse(responseBody);
             return mililitersDonated;
         }
 
         /// <summary>
         /// Returns time when donor will be able to donate blood again.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<DateTime> WhenAbleToDonateAgainAsync()
         {
-            var response = await Client.GetStringAsync("donor/donations/whenabletodonate");
-            var date = JsonConvert.DeserializeObject<DateTime>(response);
+            var response = await Client.GetAsync("donor/donations/whenabletodonate");
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var date = JsonConvert.DeserializeObject<DateTime>(responseBody);
             return date;
         }
 
         /// <summary>
         /// Returns whole donor account.
         /// </summary>
+        /// <exception cref="UserNotLoggedInException">
+        ///     Thrown when user is not logged in.
+        /// </exception>
         public async Task<Donor> GetAccountAsync()
         {
             var response = await Client.GetAsync("donor");
 
-            if(response.StatusCode.Equals(HttpStatusCode.Gone))
-                throw new UserNotFoundException("Actual user has been deleted?");
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Gone:
+                    throw new UserNotFoundException("Actual user has been deleted?");
+                case HttpStatusCode.Unauthorized:
+                    throw new UserNotLoggedInException();
+            }
 
             var responseJson = await response.Content.ReadAsStringAsync();
             var donor = JsonConvert.DeserializeObject<Donor>(responseJson);

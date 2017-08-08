@@ -51,6 +51,7 @@
     <Compile Include="Exceptions\InvalidLoginCredentialsException.cs" />
     <Compile Include="Exceptions\ResouceAlreadyExistsException.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Exceptions\UserNotLoggedInException.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
     <Compile Include="Models\BloodDonation.cs" />
     <Compile Include="Models\BloodType.cs" />
