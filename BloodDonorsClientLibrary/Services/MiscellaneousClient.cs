@@ -8,7 +8,7 @@ namespace BloodDonorsClientLibrary.Services
 {
     public class MiscellaneousClient : HttpClientBase
     {
-        public MiscellaneousClient(HttpClient client) : base(client)
+        internal MiscellaneousClient(HttpClient client) : base(client)
         {
         }
 

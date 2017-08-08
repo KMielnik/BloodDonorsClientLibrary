@@ -13,7 +13,7 @@ namespace BloodDonorsClientLibrary.Services
 {
     public class PersonnelClient : HttpClientWithAuthorization
     {
-        public PersonnelClient(HttpClient client) : base(client)
+        internal PersonnelClient(HttpClient client) : base(client)
         {
         }
 
