@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using BloodDonorsClientLibrary.Commands;
+using BloodDonorsClientLibrary.Exceptions;
+using BloodDonorsClientLibrary.Extensions;
+using BloodDonorsClientLibrary.Models;
+using Newtonsoft.Json;
 
 namespace BloodDonorsClientLibrary.Services
 {
@@ -9,26 +15,53 @@ namespace BloodDonorsClientLibrary.Services
     {
         protected HttpClientWithAuthorization(HttpClient client) : base(client)
         {
-            WhenLogout = OnLogout;
             Token = "";
         }
 
         public bool IsLoggedIn { get; protected set; }
         protected string Token;
-        public event EventHandler WhenLogout;
 
-        public abstract Task LoginAsync(string pesel, string password);
+        /// <summary>
+        /// Fires when user has been logged off (explicitly or after token expiration.
+        /// </summary>
+        public event EventHandler OnLogout;
 
-        public void Logout()
+        /// <summary>
+        /// Fires when user has been logged in.
+        /// </summary>
+        public event EventHandler OnLogin;
+
+        public async Task LoginAsync(string pesel, string password, string loginPath)
         {
-            WhenLogout?.Invoke(this,EventArgs.Empty);
+            var loginCredentials = new LoginCredentials(pesel, password);
+
+            var loginJson = JsonConvert.SerializeObject(loginCredentials);
+            var response = await Client.PostJsonAsync(loginPath, new StringContent(loginJson));
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jwtJson = await response.Content.ReadAsStringAsync();
+                var jwt = JsonConvert.DeserializeObject<Jwt>(jwtJson);
+
+                Token = jwt.Token;
+                AddAuthorizationToClient();
+                AutomaticLogout(jwt.Expires);
+                IsLoggedIn = true;
+                OnLogin?.Invoke(this, EventArgs.Empty);
+                return;
+            }
+
+            if (response.StatusCode.Equals(HttpStatusCode.BadRequest))
+                throw new InvalidLoginCredentialsException();
         }
 
-        protected void OnLogout(object sender,EventArgs e)
+        public void Logout()
         {
             Token = "";
             AddAuthorizationToClient();
             IsLoggedIn = false;
+
+            OnLogout?.Invoke(this,EventArgs.Empty);
         }
 
         protected void AddAuthorizationToClient()

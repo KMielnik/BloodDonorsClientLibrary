@@ -24,28 +24,9 @@ namespace BloodDonorsClientLibrary.Services
         /// <exception cref="InvalidLoginCredentialsException">
         ///     Thrown when user couldn't be found/password was incorrect.
         /// </exception>
-        public override async Task LoginAsync(string pesel, string password)
-        {
-            var loginCredentials = new LoginCredentials(pesel, password);
+        public async Task LoginAsync(string pesel, string password)
+            => await base.LoginAsync(pesel, password, "donor/login");
 
-            var loginJson = JsonConvert.SerializeObject(loginCredentials);
-            var response =  await Client.PostJsonAsync("donor/login", new StringContent(loginJson));
-
-            if (response.IsSuccessStatusCode)
-            {
-                var jwtJson = await response.Content.ReadAsStringAsync();
-                var jwt = JsonConvert.DeserializeObject<Jwt>(jwtJson);
-
-                Token = jwt.Token;
-                AddAuthorizationToClient();
-                AutomaticLogout(jwt.Expires);
-                IsLoggedIn = true;
-                return;
-            }
-
-            if(response.StatusCode.Equals(HttpStatusCode.BadRequest))
-                throw new InvalidLoginCredentialsException();
-        }
 
         /// <summary>
         /// Returns name of logged donor.
