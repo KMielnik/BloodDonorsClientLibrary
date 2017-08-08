@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BloodDonorsClientLibrary.Models;
@@ -36,16 +37,15 @@ namespace BloodDonorsClientLibrary.Services
         }
 
         /// <summary>
-        /// 
+        /// Checks if server is online by sending a request to it.
         /// </summary>
-        /// <returns></returns>
         public async Task<bool> IsServerOnline()
         {
             try
             {
                 var response = await Client.GetAsync("whatever");
             }
-            catch (TaskCanceledException e)
+            catch (HttpRequestException)
             {
                 return false;
             }
