@@ -4,7 +4,7 @@ namespace BloodDonorsClientLibrary.Models
 {
     public class Jwt
     {
-        public string Token;
-        public DateTime Expires;
+        public string Token { get; set; }
+        public DateTime Expires { get; set; }
     }
 }

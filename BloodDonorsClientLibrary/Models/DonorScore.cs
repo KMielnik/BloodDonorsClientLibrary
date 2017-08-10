@@ -2,8 +2,8 @@
 {
     public class DonorScore
     {
-        public string Name;
-        public int Volume;
+        public string Name { get; set; }
+        public int Volume { get; set; }
 
         public DonorScore(string name, int volume)
         {

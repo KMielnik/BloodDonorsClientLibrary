@@ -53,6 +53,8 @@ namespace BloodDonorsClientLibrary.Services
             return serverAdress;
         }
 
+        ~ClientFactory() => client.Dispose();
+
         /// <summary>
         /// Get instance of DonorClient
         /// </summary>
