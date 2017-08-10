@@ -23,7 +23,8 @@ namespace BloodDonorsClientLibrary.Services
         {
             client = new HttpClient
             {
-                BaseAddress = new Uri($"http://{apiServerAdress}/api/")
+                BaseAddress = new Uri($"http://{apiServerAdress}/api/"),
+                Timeout = TimeSpan.FromMinutes(1)
             };
         }
 

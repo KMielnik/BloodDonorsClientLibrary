@@ -34,9 +34,12 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<string> GetNameAsync()
         {
-            var response = await Client.GetStringAsync("personnel/name");
+            var response = await Client.GetAsync("personnel/name");
 
-            return response;
+            if (response.StatusCode == HttpStatusCode.Unauthorized)
+                throw new UserNotLoggedInException();
+
+            return await response.Content.ReadAsStringAsync();
         }
 
         /// <summary>
