@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 
 namespace BloodDonorsClientLibrary.Services
@@ -20,8 +21,36 @@ namespace BloodDonorsClientLibrary.Services
         /// </param>
         public ClientFactory(string apiServerAdress)
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri($"http://{apiServerAdress}/api/");
+            client = new HttpClient
+            {
+                BaseAddress = new Uri($"http://{apiServerAdress}/api/")
+            };
+        }
+
+
+        /// <summary>
+        /// Create factory which returns single instances of particuliar clients, you can use all of them at once.
+        /// <para /> Server adress is taken from the serverAdress.config file.
+        /// <para /> If Empty, defaults to localhost.
+        /// </summary>
+        public ClientFactory() : this(GetServerAdressFromFile())
+        {
+        }
+
+        private static string GetServerAdressFromFile()
+        {
+            string serverAdress;
+            const string fileName = "serverAdress.config";
+
+            if (File.Exists(fileName))
+                serverAdress = File.ReadAllText(fileName);
+            else
+            {
+                serverAdress = "localhost";
+                File.WriteAllText(fileName, serverAdress);
+            }
+
+            return serverAdress;
         }
 
         /// <summary>
