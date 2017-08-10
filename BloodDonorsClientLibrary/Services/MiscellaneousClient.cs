@@ -41,8 +41,6 @@ namespace BloodDonorsClientLibrary.Services
         /// </summary>
         public async Task<bool> IsServerOnline()
         {
-            var originalTimeout = Client.Timeout;
-            Client.Timeout = TimeSpan.FromSeconds(4);
             try
             {
                 var response = await Client.GetAsync("whatever");
@@ -50,10 +48,6 @@ namespace BloodDonorsClientLibrary.Services
             catch (HttpRequestException)
             {
                 return false;
-            }
-            finally
-            {
-                Client.Timeout = originalTimeout;
             }
             return true;
         }
