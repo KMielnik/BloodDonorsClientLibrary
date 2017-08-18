@@ -36,7 +36,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<string> GetNameAsync()
         {
-            var response = await Client.GetAsync("donor/name");
+            var response = await Client.AuthenticatedGetAsync("donor/name", Token);
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
             var responseBody = await response.Content.ReadAsStringAsync();
@@ -51,7 +51,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<int> HowMuchDonatedAsync()
         {
-            var response = await Client.GetAsync("donor/donations/volume");
+            var response = await Client.AuthenticatedGetAsync("donor/donations/volume", Token);
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
 
@@ -68,7 +68,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<DateTime> WhenAbleToDonateAgainAsync()
         {
-            var response = await Client.GetAsync("donor/donations/whenabletodonate");
+            var response = await Client.AuthenticatedGetAsync("donor/donations/whenabletodonate", Token);
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
 
@@ -85,7 +85,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<Donor> GetAccountAsync()
         {
-            var response = await Client.GetAsync("donor");
+            var response = await Client.AuthenticatedGetAsync("donor", Token);
 
             switch (response.StatusCode)
             {

@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodDonorsClientLibrary", "BloodDonorsClientLibrary\BloodDonorsClientLibrary.csproj", "{D5598268-9998-4BD5-977A-79BB3A9D4A63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleFrontEnd", "ConsoleFrontEnd\ConsoleFrontEnd.csproj", "{3AEF474E-7480-4C21-83EA-87547FC9FCFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "ConsoleApp2\ConsoleApp2.csproj", "{BA6E90E6-62A4-463F-9B01-3A9C491985DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{D5598268-9998-4BD5-977A-79BB3A9D4A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5598268-9998-4BD5-977A-79BB3A9D4A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5598268-9998-4BD5-977A-79BB3A9D4A63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AEF474E-7480-4C21-83EA-87547FC9FCFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AEF474E-7480-4C21-83EA-87547FC9FCFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AEF474E-7480-4C21-83EA-87547FC9FCFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AEF474E-7480-4C21-83EA-87547FC9FCFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA6E90E6-62A4-463F-9B01-3A9C491985DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA6E90E6-62A4-463F-9B01-3A9C491985DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA6E90E6-62A4-463F-9B01-3A9C491985DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA6E90E6-62A4-463F-9B01-3A9C491985DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

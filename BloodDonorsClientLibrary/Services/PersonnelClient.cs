@@ -34,7 +34,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<string> GetNameAsync()
         {
-            var response = await Client.GetAsync("personnel/name");
+            var response = await Client.AuthenticatedGetAsync("personnel/name", Token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
@@ -50,7 +50,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodTakenByPersonnelAsync()
         {
-            var response = await Client.GetAsync("personnel/alltakenblood");
+            var response = await Client.AuthenticatedGetAsync("personnel/alltakenblood", Token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
@@ -73,7 +73,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<DateTime> LastDonationDateByDonorAsync(string donorsPesel)
         {
-            var response = await Client.GetAsync($"personnel/lastDonationBy/{donorsPesel}");
+            var response = await Client.AuthenticatedGetAsync($"personnel/lastDonationBy/{donorsPesel}", Token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
@@ -108,7 +108,9 @@ namespace BloodDonorsClientLibrary.Services
             var registerDonor = new RegisterDonor(pesel, name, bloodType, mail, phone);
             var registerDonorJson = JsonConvert.SerializeObject(registerDonor);
 
-            var response = await Client.PostJsonAsync("personnel/newDonor", new StringContent(registerDonorJson));
+            var response =
+                await Client.AuthenticatedPostJsonAsync("personnel/newDonor", new StringContent(registerDonorJson),
+                    Token);
 
             switch (response.StatusCode)
             {
@@ -139,7 +141,9 @@ namespace BloodDonorsClientLibrary.Services
             var newDonation = new AddDonation(dateOfDonation, volume, bloodType, donorPesel, personnelPesel);
             var newDonationJson = JsonConvert.SerializeObject(newDonation);
 
-            var response = await Client.PostJsonAsync("personnel/newDonation", new StringContent(newDonationJson));
+            var response =
+                await Client.AuthenticatedPostJsonAsync("personnel/newDonation", new StringContent(newDonationJson),
+                    Token);
 
             switch (response.StatusCode)
             {
@@ -160,7 +164,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<Donor> GetDonorByPeselAsync(string pesel)
         {
-            var response = await Client.GetAsync($"personnel/donor/{pesel}");
+            var response = await Client.AuthenticatedGetAsync($"personnel/donor/{pesel}", Token);
 
             switch (response.StatusCode)
             {
@@ -184,7 +188,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodAsync()
         {
-            var response = await Client.GetAsync("donations/allBlood");
+            var response = await Client.AuthenticatedGetAsync("donations/allBlood", Token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
@@ -204,7 +208,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<Personnel> GetAccountAsync()
         {
-            var response = await Client.GetAsync("personnel");
+            var response = await Client.AuthenticatedGetAsync("personnel", Token);
 
             switch (response.StatusCode)
             {

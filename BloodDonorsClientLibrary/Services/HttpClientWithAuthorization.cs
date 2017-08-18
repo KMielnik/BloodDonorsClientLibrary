@@ -44,7 +44,6 @@ namespace BloodDonorsClientLibrary.Services
                 var jwt = JsonConvert.DeserializeObject<Jwt>(jwtJson);
 
                 Token = jwt.Token;
-                AddAuthorizationToClient();
                 AutomaticLogout(jwt.Expires);
                 IsLoggedIn = true;
                 OnLogin?.Invoke(this, EventArgs.Empty);
@@ -58,15 +57,9 @@ namespace BloodDonorsClientLibrary.Services
         public void Logout()
         {
             Token = "";
-            AddAuthorizationToClient();
             IsLoggedIn = false;
 
             OnLogout?.Invoke(this,EventArgs.Empty);
-        }
-
-        protected void AddAuthorizationToClient()
-        {
-            Client.DefaultRequestHeaders.Authorization = AuthenticationHeaderValue.Parse($"Bearer {Token}");
         }
 
         protected async void AutomaticLogout(DateTime dateTime)
