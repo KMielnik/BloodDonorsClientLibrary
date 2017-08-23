@@ -15,5 +15,10 @@
             AboType = aboType;
             RhType = rhType;
         }
+
+        public override string ToString()
+        {
+            return $"{AboType} Rh{RhType}";
+        }
     }
 }
