@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -34,6 +35,17 @@ namespace BloodDonorsClientLibrary.Services
             var allBloodVolume = JsonConvert.DeserializeObject<int>(responseJson);
 
             return allBloodVolume;
+        }
+
+        /// <summary>
+        /// Returns all possible blood types.
+        /// </summary>
+        public async Task<IEnumerable<BloodType>> GetBloodTypesAsync()
+        {
+            var responseJson = await Client.GetStringAsync("bloodTypes");
+            var bloodtypes = JsonConvert.DeserializeObject<IEnumerable<BloodType>>(responseJson);
+
+            return bloodtypes;
         }
 
         /// <summary>
