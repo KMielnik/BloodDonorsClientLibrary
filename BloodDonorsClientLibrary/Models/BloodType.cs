@@ -18,7 +18,7 @@
 
         public override string ToString()
         {
-            return $"{AboType} Rh{RhType}";
+            return $"{AboType,-2} Rh{RhType}";
         }
     }
 }

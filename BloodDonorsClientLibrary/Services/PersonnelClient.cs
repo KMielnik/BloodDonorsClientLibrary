@@ -188,7 +188,7 @@ namespace BloodDonorsClientLibrary.Services
         /// </exception>
         public async Task<IEnumerable<BloodDonation>> GetAllBloodAsync()
         {
-            var response = await Client.AuthenticatedGetAsync("donations/allBlood", Token);
+            var response = await Client.AuthenticatedGetAsync("personnel/allBlood", Token);
 
             if (response.StatusCode == HttpStatusCode.Unauthorized)
                 throw new UserNotLoggedInException();
