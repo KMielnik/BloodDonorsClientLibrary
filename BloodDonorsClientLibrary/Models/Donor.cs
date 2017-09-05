@@ -26,5 +26,10 @@ namespace BloodDonorsClientLibrary.Models
             Mail = mail;
             Phone = phone;
         }
+
+        public override string ToString()
+        {
+            return Pesel;
+        }
     }
 }

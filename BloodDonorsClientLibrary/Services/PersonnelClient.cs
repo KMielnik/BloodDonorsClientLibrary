@@ -134,10 +134,12 @@ namespace BloodDonorsClientLibrary.Services
         /// <exception cref="UserNotFoundException">
         ///     Thrown when donor with provided pesel has not been found.
         /// </exception>
-        public async Task AddDonationAsync(DateTime dateOfDonation, int volume, BloodType bloodType, string donorPesel)
+        public async Task AddDonationAsync(DateTime dateOfDonation, int volume, string donorPesel)
         {
             var personnelPesel = (await GetAccountAsync()).Pesel;
 
+            var bloodType = (await GetDonorByPeselAsync(donorPesel)).BloodType;
+           
             var newDonation = new AddDonation(dateOfDonation, volume, bloodType, donorPesel, personnelPesel);
             var newDonationJson = JsonConvert.SerializeObject(newDonation);
 

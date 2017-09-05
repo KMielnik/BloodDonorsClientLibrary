@@ -15,5 +15,10 @@
             Pesel = pesel;
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return Pesel;
+        }
     }
 }
