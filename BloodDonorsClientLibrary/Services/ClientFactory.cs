@@ -46,7 +46,7 @@ namespace BloodDonorsClientLibrary.Services
                 serverAdress = File.ReadAllText(fileName);
             else
             {
-                serverAdress = "localhost";
+                serverAdress = "blooddonorsapi.azurewebsites.net";
                 File.WriteAllText(fileName, serverAdress);
             }
 
